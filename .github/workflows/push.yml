@@ -45,7 +45,11 @@ jobs:
         shell: bash
         run: |
           RESPONSE=$(curl -X POST -s -o response.txt -w "%{response_code}" https://app.terraform.io/api/v2/workspaces/${{ steps.get-workspace-id.outputs.workspace_id }}/vars -H 'Content-Type: application/vnd.api+json' -H "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" -d '{"type": "vars","data": {"attributes": {"key": "AWS_ACCESS_KEY_ID","value": "${{ steps.get-token.outputs.aws-access-key-id }}","category": "env"}}}' 2>&1)
-          cat response.txt
+          STATUS=$(cat response.txt | jq '.errors[].status' -r)
+          if [ $STATUS == "422" ]; then
+            RESPONSE=$(curl -X PATCH -s -o response.txt -w "%{response_code}" https://app.terraform.io/api/v2/workspaces/${{ steps.get-workspace-id.outputs.workspace_id }}/vars/$(curl -s https://app.terraform.io/api/v2/workspaces/${{ steps.get-workspace-id.outputs.workspace_id }}/vars -H "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" | jq '.data[] | select(.attributes.key == "AWS_ACCESS_KEY_ID") | .id' -r) -H 'Content-Type: application/vnd.api+json' -H "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" -d '{"type": "vars","data": {"attributes": {"key": "AWS_ACCESS_KEY_ID","value": "${{ steps.get-token.outputs.aws-access-key-id }}","category": "env"}}}' 2>&1)
+            cat response.txt
+          fi
           # echo "variable_id=$(cat response.txt | jq '.body.data.id' -r)" >> $GITHUB_OUTPUT
           rm response.txt
 
