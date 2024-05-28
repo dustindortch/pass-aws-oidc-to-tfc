@@ -30,7 +30,7 @@ jobs:
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.0
         with:
           message: "Run from GitHub Actions"
-          organization: vars.TF_ORGANIZATION
+          organization: ${{ vars.TF_ORGANIZATION }}
           token: ${{ secrets.TF_API_TOKEN }}
-          workspace: vars.TF_WORKSPACE
+          workspace: ${{ vars.TF_WORKSPACE }}
 ...
