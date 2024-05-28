@@ -34,7 +34,7 @@ jobs:
 
       - name: Get Workspace ID
         id: get-workspace-id
-        uses: dustindortch/actions-tfe-get-workspace-id@v0.1.3
+        uses: dustindortch/actions-tfe-get-workspace-id@v0.1.4
         with:
           organization: ${{ env.TF_CLOUD_ORGANIZATION }}
           token: ${{ env.TF_API_TOKEN}}
