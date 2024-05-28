@@ -60,7 +60,7 @@ jobs:
           workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
           name: AWS_SECRET_ACCESS_KEY
           scruitinizer: ${{ steps.get-token.outputs.aws-secret-access-key }}
-          sensitive: true
+          sensitive: false
           category: env
 
       # - name: Set Environment Variables
