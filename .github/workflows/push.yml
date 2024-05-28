@@ -24,6 +24,12 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
 
-      - name: Get Caller Identity
-        run: aws sts get-caller-identity
+      - name: Terraform Cloud Run
+        id: run
+        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.0
+          with:
+            message: "Run from GitHub Actions"
+            organization: vars.TF_ORGANIZATION
+            token: ${{ secrets.TF_API_TOKEN }}
+            workspace: vars.TF_WORKSPACE
 ...

@@ -10,8 +10,8 @@ terraform {
 
 provider "aws" {}
 
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "ctx" {}
 
 output "account_id" {
-  value = data.aws_caller_identity.current.account_id
+  value = data.aws_caller_identity.ctx.account_id
 }
