@@ -1,0 +1,29 @@
+---
+name: Push
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  retrieve-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Get Token
+        id: get-token
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
+
+      - name: Get Caller Identity
+        run: aws sts get-caller-identity
+...
