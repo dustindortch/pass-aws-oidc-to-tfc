@@ -30,7 +30,7 @@ jobs:
         with:
           aws-region: us-east-1
           output-credentials: true
-          role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
       - name: Get Workspace ID
         id: get-workspace-id
@@ -73,6 +73,28 @@ jobs:
           name: AWS_SESSION_TOKEN
           value: ${{ steps.get-token.outputs.aws-session-token }}
           sensitive: true
+          category: env
+
+      - name: Set TFC_AWS_PROVIDER_AUTH
+        id: set-aws-provider-auth
+        uses: dustindortch/actions-tfe-set-variable@v0.1.8
+        with:
+          organization: ${{ env.TF_CLOUD_ORGANIZATION }}
+          token: ${{ env.TF_API_TOKEN}}
+          workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
+          name: TFC_AWS_PROVIDER_AUTH
+          value: true
+          category: env
+
+      - name: Set TFC_AWS_RUN_ROLE_ARN
+        id: set-aws-run-role-arn
+        uses: dustindortch/actions-tfe-set-variable@v0.1.8
+        with:
+          organization: ${{ env.TF_CLOUD_ORGANIZATION }}
+          token: ${{ env.TF_API_TOKEN}}
+          workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
+          name: TFC_AWS_RUN_ROLE_ARN
+          value: ${{ vars.AWS_ROLE_ARN }}
           category: env
 
       - name: Terraform Cloud Run
