@@ -44,7 +44,7 @@ jobs:
         id: set-env-vars
         shell: bash
         run: |
-          RESPONSE=$(curl -X POST https://app.terraform.io/api/v2/workspaces/${{ steps.get-workspace-id.outputs.workspace_id }}/vars -H 'Content-Type: application/vnd.api+json' -H "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" -d '{"type": "vars","data": {"attributes": {"key": "AWS_ACCESS_KEY_ID","value": "${{ steps.get-token.outputs.aws-access-key-id }}","category": "env"}}}' 2>&1)echo "status=$RESPONSE" >> $GITHUB_OUTPUT
+          RESPONSE=$(curl -X POST https://app.terraform.io/api/v2/workspaces/${{ steps.get-workspace-id.outputs.workspace_id }}/vars -H 'Content-Type: application/vnd.api+json' -H "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" -d '{"type": "vars","data": {"attributes": {"key": "AWS_ACCESS_KEY_ID","value": "${{ steps.get-token.outputs.aws-access-key-id }}","category": "env"}}}' 2>&1)
           echo "variable_id=$(cat response.txt | jq '.body.data.id' -r)" >> $GITHUB_OUTPUT
           rm response.txt
 
