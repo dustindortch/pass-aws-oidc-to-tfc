@@ -33,12 +33,12 @@ jobs:
           role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
 
       - name: Get Workspace ID
-          id: get-workspace-id
-          uses: dustindortch/actions-tfe-get-workspace-id@v0.1.0
-          with:
-            organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-            token: ${{ env.TF_API_TOKEN}}
-            workspace: ${{ vars.TF_WORKSPACE }}
+        id: get-workspace-id
+        uses: dustindortch/actions-tfe-get-workspace-id@v0.1.0
+        with:
+          organization: ${{ env.TF_CLOUD_ORGANIZATION }}
+          token: ${{ env.TF_API_TOKEN}}
+          workspace: ${{ vars.TF_WORKSPACE }}
 
       - name: Set Environment Variables
         id: set-env-vars
