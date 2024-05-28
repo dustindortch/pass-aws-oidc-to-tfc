@@ -48,7 +48,7 @@ jobs:
           token: ${{ env.TF_API_TOKEN}}
           workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
           name: AWS_ACCESS_KEY_ID
-          value: ${{ steps.get-token.outputs.aws-access-key-id }}
+          scruitinizer: ${{ steps.get-token.outputs.aws-access-key-id }}
           category: env
 
       - name: Set AWS_SECRET_ACCESS_KEY
@@ -59,7 +59,7 @@ jobs:
           token: ${{ env.TF_API_TOKEN}}
           workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
           name: AWS_ACCESS_KEY_ID
-          value: ${{ steps.get-token.outputs.aws-secret-access-key }}
+          scruitinizer: ${{ steps.get-token.outputs.aws-secret-access-key }}
           category: env
 
       # - name: Set Environment Variables
