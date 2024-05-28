@@ -29,6 +29,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
+          output-credentials: true
           role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
 
       - name: Set Environment Variables
