@@ -25,11 +25,11 @@ jobs:
           role-to-assume: arn:aws:iam::853670174897:role/github-actions-to-tfc
 
       - name: Terraform Cloud Run
-        id: run
+        id: plan
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.0
-          with:
-            message: "Run from GitHub Actions"
-            organization: vars.TF_ORGANIZATION
-            token: ${{ secrets.TF_API_TOKEN }}
-            workspace: vars.TF_WORKSPACE
+        with:
+          message: "Run from GitHub Actions"
+          organization: vars.TF_ORGANIZATION
+          token: ${{ secrets.TF_API_TOKEN }}
+          workspace: vars.TF_WORKSPACE
 ...
