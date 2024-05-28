@@ -42,24 +42,24 @@ jobs:
 
       - name: Set AWS_ACCESS_KEY_ID
         id: set-aws-acccess-key-id
-        uses: dustindortch/actions-tfe-set-variable@v0.1.7
+        uses: dustindortch/actions-tfe-set-variable@v0.1.8
         with:
           organization: ${{ env.TF_CLOUD_ORGANIZATION }}
           token: ${{ env.TF_API_TOKEN}}
           workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
           name: AWS_ACCESS_KEY_ID
-          scruitinizer: ${{ steps.get-token.outputs.aws-access-key-id }}
+          value: ${{ steps.get-token.outputs.aws-access-key-id }}
           category: env
 
       - name: Set AWS_SECRET_ACCESS_KEY
         id: set-aws-secret-access-key
-        uses: dustindortch/actions-tfe-set-variable@v0.1.7
+        uses: dustindortch/actions-tfe-set-variable@v0.1.8
         with:
           organization: ${{ env.TF_CLOUD_ORGANIZATION }}
           token: ${{ env.TF_API_TOKEN}}
           workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
           name: AWS_SECRET_ACCESS_KEY
-          scruitinizer: ${{ steps.get-token.outputs.aws-secret-access-key }}
+          value: ${{ steps.get-token.outputs.aws-secret-access-key }}
           sensitive: true
           category: env
 
