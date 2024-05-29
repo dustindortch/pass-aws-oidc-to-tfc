@@ -34,71 +34,6 @@ jobs:
           output-credentials: true
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
-      # - name: Get Workspace ID
-      #   id: get-workspace-id
-      #   uses: dustindortch/actions-tfe-get-workspace-id@v0.1.5
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace: ${{ vars.TF_WORKSPACE }}
-
-      # - name: Set AWS_ACCESS_KEY_ID
-      #   id: set-aws-acccess-key-id
-      #   uses: dustindortch/actions-tfe-set-variable@v0.1.8
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
-      #     name: AWS_ACCESS_KEY_ID
-      #     value: ${{ steps.get-token.outputs.aws-access-key-id }}
-      #     category: env
-
-      # - name: Set AWS_SECRET_ACCESS_KEY
-      #   id: set-aws-secret-access-key
-      #   uses: dustindortch/actions-tfe-set-variable@v0.1.8
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
-      #     name: AWS_SECRET_ACCESS_KEY
-      #     value: ${{ steps.get-token.outputs.aws-secret-access-key }}
-      #     sensitive: true
-      #     category: env
-
-      # - name: Set AWS_SESSION_TOKEN
-      #   id: set-aws-session-token
-      #   uses: dustindortch/actions-tfe-set-variable@v0.1.8
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
-      #     name: AWS_SESSION_TOKEN
-      #     value: ${{ steps.get-token.outputs.aws-session-token }}
-      #     sensitive: true
-      #     category: env
-
-      # - name: Set TFC_AWS_PROVIDER_AUTH
-      #   id: set-aws-provider-auth
-      #   uses: dustindortch/actions-tfe-set-variable@v0.1.8
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
-      #     name: TFC_AWS_PROVIDER_AUTH
-      #     value: true
-      #     category: env
-
-      # - name: Set TFC_AWS_RUN_ROLE_ARN
-      #   id: set-aws-run-role-arn
-      #   uses: dustindortch/actions-tfe-set-variable@v0.1.8
-      #   with:
-      #     organization: ${{ env.TF_CLOUD_ORGANIZATION }}
-      #     token: ${{ env.TF_API_TOKEN}}
-      #     workspace_id: ${{ steps.get-workspace-id.outputs.workspace_id }}
-      #     name: TFC_AWS_RUN_ROLE_ARN
-      #     value: ${{ vars.AWS_ROLE_ARN }}
-      #     category: env
-
       - name: Install Terraform Cloud Run Agent
         id: agent
         shell: bash
@@ -106,7 +41,6 @@ jobs:
           wget https://releases.hashicorp.com/tfc-agent/1.15.1/tfc-agent_1.15.1_linux_amd64.zip
           unzip tfc-agent_1.15.1_linux_amd64.zip
           ./tfc-agent -single &
-          
 
       - name: Terraform Cloud Run
         id: plan
