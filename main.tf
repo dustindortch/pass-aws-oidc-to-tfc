@@ -15,3 +15,7 @@ data "aws_caller_identity" "ctx" {}
 output "account_id" {
   value = data.aws_caller_identity.ctx.account_id
 }
+
+output "arn" {
+  value = data.aws_caller_identity.ctx.arn
+}

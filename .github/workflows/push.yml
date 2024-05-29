@@ -23,8 +23,8 @@ jobs:
   setup-agent-plan:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Token
-        id: get-token
+      - name: Get AWS Token
+        id: get-aws-token
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
@@ -32,14 +32,14 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
       - name: Install Terraform Cloud Run Agent
-        id: agent-and-plan-run
+        id: install-agent
         shell: bash
         run: |
           wget https://releases.hashicorp.com/tfc-agent/${{ env.AGENT_VERSION }}/tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
           unzip tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
 
       - name: Run Terraform Cloud Run Agent (Plan)
-        id: plan-run
+        id: run-agent-plan
         shell: bash
         run: ./tfc-agent
       
@@ -58,7 +58,7 @@ jobs:
     needs: [ setup-agent-plan, terraform-cloud-plan ]
     steps:
       - name: Get Token
-        id: get-token
+        id: get-aws-token
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
@@ -66,14 +66,14 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
       - name: Install Terraform Cloud Run Agent
-        id: agent-and-plan-run
+        id: install-agent
         shell: bash
         run: |
           wget https://releases.hashicorp.com/tfc-agent/${{ env.AGENT_VERSION }}/tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
           unzip tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
 
-      - name: Run Terraform Cloud Run Agent (Plan)
-        id: plan-run
+      - name: Run Terraform Cloud Run Agent (Apply)
+        id: run-agent-apply
         shell: bash
         run: ./tfc-agent
 ...
