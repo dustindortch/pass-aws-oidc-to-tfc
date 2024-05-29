@@ -14,9 +14,10 @@ env:
   TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
   TF_CLOUD_ORGANIZATION: ${{ vars.TF_CLOUD_ORGANIZATION}}
   TF_HOSTNAME: app.terraform.io
-  TF_PROJECT: PACCAR Test
-  TFC_AGENT_TOKEN: ${{ secrets.TFC_AGENT_TOKEN }}
   TFC_AGENT_NAME: ${{ secrets.TFC_AGENT_NAME }}
+  TFC_AGENT_SINGLE: true
+  TFC_AGENT_TOKEN: ${{ secrets.TFC_AGENT_TOKEN }}
+  TFC_AGENT_VERSION: 1.15.1
 
 jobs:
   retrieve-token:
@@ -38,13 +39,8 @@ jobs:
         id: agent-and-plan-run
         shell: bash
         run: |
-          wget https://releases.hashicorp.com/tfc-agent/1.15.1/tfc-agent_1.15.1_linux_amd64.zip
-          unzip tfc-agent_1.15.1_linux_amd64.zip
-
-      - name: Run Terraform Cloud Run Agent (Plan)
-        id: plan-run
-        shell: bash
-        run: ./tfc-agent -single &
+          wget https://releases.hashicorp.com/tfc-agent/${{ env.TFC_AGENT_VERSION }}/tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
+          unzip tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
 
       - name: Terraform Cloud Run
         id: plan
@@ -53,8 +49,13 @@ jobs:
           message: "Run from GitHub Actions"
           workspace: ${{ vars.TF_WORKSPACE }}
 
+      - name: Run Terraform Cloud Run Agent (Plan)
+        id: plan-run
+        shell: bash
+        run: ./tfc-agent
+
       - name: Run Terraform Cloud Run Agent (Apply)
         id: apply-run
         shell: bash
-        run: ./tfc-agent -single &
+        run: ./tfc-agent
 ...
