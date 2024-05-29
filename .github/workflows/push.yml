@@ -20,18 +20,14 @@ env:
   TFC_AGENT_VERSION: 1.15.1
 
 jobs:
-  retrieve-token:
+  setup-agent-plan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
-
       - name: Get Token
         id: get-token
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: us-east-1
+          aws-region: ${{ vars.AWS_REGION }}
           output-credentials: true
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
@@ -42,6 +38,14 @@ jobs:
           wget https://releases.hashicorp.com/tfc-agent/${{ env.TFC_AGENT_VERSION }}/tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
           unzip tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
 
+      - name: Run Terraform Cloud Run Agent (Plan)
+        id: plan-run
+        shell: bash
+        run: ./tfc-agent
+      
+  terraform-cloud-plan:
+    runs-on: ubuntu-latest
+    steps:
       - name: Terraform Cloud Run
         id: plan
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.0
@@ -49,13 +53,27 @@ jobs:
           message: "Run from GitHub Actions"
           workspace: ${{ vars.TF_WORKSPACE }}
 
+  setup-agent-apply:
+    runs-on: ubuntu-latest
+    needs: [ setup-agent-plan, terraform-cloud-plan ]
+    steps:
+      - name: Get Token
+        id: get-token
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          output-credentials: true
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+
+      - name: Install Terraform Cloud Run Agent
+        id: agent-and-plan-run
+        shell: bash
+        run: |
+          wget https://releases.hashicorp.com/tfc-agent/${{ env.TFC_AGENT_VERSION }}/tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
+          unzip tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
+
       - name: Run Terraform Cloud Run Agent (Plan)
         id: plan-run
-        shell: bash
-        run: ./tfc-agent
-
-      - name: Run Terraform Cloud Run Agent (Apply)
-        id: apply-run
         shell: bash
         run: ./tfc-agent
 ...
