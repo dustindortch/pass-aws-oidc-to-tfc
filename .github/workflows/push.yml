@@ -17,7 +17,7 @@ env:
   TFC_AGENT_NAME: ${{ secrets.TFC_AGENT_NAME }}
   TFC_AGENT_SINGLE: true
   TFC_AGENT_TOKEN: ${{ secrets.TFC_AGENT_TOKEN }}
-  TFC_AGENT_VERSION: 1.15.1
+  AGENT_VERSION: 1.15.1
 
 jobs:
   setup-agent-plan:
@@ -35,8 +35,8 @@ jobs:
         id: agent-and-plan-run
         shell: bash
         run: |
-          wget https://releases.hashicorp.com/tfc-agent/${{ env.TFC_AGENT_VERSION }}/tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
-          unzip tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
+          wget https://releases.hashicorp.com/tfc-agent/${{ env.AGENT_VERSION }}/tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
+          unzip tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
 
       - name: Run Terraform Cloud Run Agent (Plan)
         id: plan-run
@@ -69,8 +69,8 @@ jobs:
         id: agent-and-plan-run
         shell: bash
         run: |
-          wget https://releases.hashicorp.com/tfc-agent/${{ env.TFC_AGENT_VERSION }}/tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
-          unzip tfc-agent_${{ env.TFC_AGENT_VERSION }}_linux_amd64.zip
+          wget https://releases.hashicorp.com/tfc-agent/${{ env.AGENT_VERSION }}/tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
+          unzip tfc-agent_${{ env.AGENT_VERSION }}_linux_amd64.zip
 
       - name: Run Terraform Cloud Run Agent (Plan)
         id: plan-run
